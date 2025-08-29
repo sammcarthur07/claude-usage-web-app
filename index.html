@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#2C3E50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Monitor your Claude AI usage with real-time statistics, charts, and secure authentication">
+    
+    <title>Claude Usage Monitor</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Splash Screen -->
+        <div id="splashScreen" class="screen active">
+            <div class="splash-content">
+                <div class="app-logo">
+                    <span class="material-icons-round">insights</span>
+                </div>
+                <h1 class="app-title">Claude Usage Monitor</h1>
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen">
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="app-icon">
+                        <span class="material-icons-round">insights</span>
+                    </div>
+                    <h1>Claude Usage Monitor</h1>
+                    <p>Track your AI usage in real-time</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email / Username</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">person</span>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                placeholder="Enter your email"
+                                autocomplete="username"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apiKey">Anthropic API Key</label>
+                        <div class="input-wrapper password-wrapper">
+                            <span class="material-icons-round input-icon">vpn_key</span>
+                            <input 
+                                type="password" 
+                                id="apiKey" 
+                                name="apiKey" 
+                                placeholder="sk-ant-..."
+                                autocomplete="current-password"
+                                required
+                            >
+                            <button type="button" class="password-toggle" id="passwordToggle">
+                                <span class="material-icons-round">visibility_off</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <span class="checkbox-custom"></span>
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="loginBtn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="btn-loader"></div>
+                    </button>
+
+                    <div class="form-footer">
+                        <button type="button" class="link-btn" id="clearDataBtn">
+                            <span class="material-icons-round">delete_outline</span>
+                            Clear saved data
+                        </button>
+                    </div>
+                </form>
+
+                <div class="security-note">
+                    <span class="material-icons-round">lock</span>
+                    <p>Your credentials are encrypted and stored locally</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboardScreen" class="screen">
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <h1>Usage Dashboard</h1>
+                    <div class="header-actions">
+                        <button class="icon-btn" id="themeToggle" title="Toggle Theme">
+                            <span class="material-icons-round">dark_mode</span>
+                        </button>
+                        <button class="icon-btn" id="refreshBtn" title="Refresh">
+                            <span class="material-icons-round">refresh</span>
+                        </button>
+                        <button class="icon-btn" id="logoutBtn" title="Logout">
+                            <span class="material-icons-round">logout</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card" data-color="blue">
+                        <div class="stat-icon">
+                            <span class="material-icons-round">trending_up</span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Tokens</h3>
+                            <p class="stat-value" id="totalTokens">0</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" data-color="green">
+                        <div class="stat-icon">
+                            <span class="material-icons-round">sync</span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>API Calls</h3>
+                            <p class="stat-value" id="apiCalls">0</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" data-color="purple">
+                        <div class="stat-icon">
+                            <span class="material-icons-round">star</span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Opus Usage</h3>
+                            <p class="stat-value">$<span id="opusCost">0.00</span></p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" data-color="orange">
+                        <div class="stat-icon">
+                            <span class="material-icons-round">flash_on</span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Sonnet Usage</h3>
+                            <p class="stat-value">$<span id="sonnetCost">0.00</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage Chart -->
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Daily Usage Trend</h3>
+                        <div class="chart-legend">
+                            <span class="legend-item">
+                                <span class="legend-dot" style="background: #3498DB"></span>
+                                Tokens
+                            </span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="usageChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <h3>Usage Limit</h3>
+                            <span class="progress-percentage" id="usagePercentage">0%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="usageProgressBar"></div>
+                        </div>
+                        <div class="progress-details">
+                            <span id="usedTokens">0</span> / <span id="limitTokens">1,000,000</span> tokens
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="summary-card">
+                    <h3>Usage Summary</h3>
+                    <div class="summary-list">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Cost:</span>
+                            <span class="summary-value">$<span id="totalCost">0.00</span></span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Web Usage:</span>
+                            <span class="summary-value"><span id="webTokens">0</span> tokens</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Terminal Usage:</span>
+                            <span class="summary-value"><span id="terminalTokens">0</span> tokens</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Last Updated:</span>
+                            <span class="summary-value" id="lastUpdated">Never</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <p>Updating data...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/crypto-utils.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
