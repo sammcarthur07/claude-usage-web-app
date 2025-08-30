@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Usage Monitor - Demo Mode</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Dashboard Screen (skip login) -->
+        <div id="dashboard" class="screen active">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="user-details">
+                            <h1>Claude Usage Monitor</h1>
+                            <p>Demo Mode - Mock Data</p>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button id="theme-toggle" class="icon-button" title="Toggle Theme">
+                            <span class="material-icons">brightness_auto</span>
+                        </button>
+                        <button id="refresh-button" class="icon-button" title="Refresh Data">
+                            <span class="material-icons">refresh</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-icons">analytics</span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-tokens">147,832</div>
+                        <div class="stat-label">Total Tokens</div>
+                        <div class="stat-change positive">+23.5% this month</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-icons">attach_money</span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-cost">$4.23</div>
+                        <div class="stat-label">Total Cost</div>
+                        <div class="stat-change positive">+18.7% this month</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-icons">api</span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="api-calls">342</div>
+                        <div class="stat-label">API Calls</div>
+                        <div class="stat-change positive">+31.2% this month</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-icons">speed</span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="efficiency">432</div>
+                        <div class="stat-label">Avg Tokens/Call</div>
+                        <div class="stat-change negative">-2.1% this month</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2>Usage Trends</h2>
+                    <div class="chart-controls">
+                        <button class="chart-type-btn active" data-type="usage">Tokens</button>
+                        <button class="chart-type-btn" data-type="cost">Cost</button>
+                        <button class="chart-type-btn" data-type="calls">Calls</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="usage-chart"></canvas>
+                    <div id="chart-loading" class="chart-loading hidden">
+                        <span class="material-icons spin">sync</span>
+                        <span>Updating chart...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Simple demo mode implementation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            let currentTheme = 'light';
+            
+            themeToggle.addEventListener('click', () => {
+                currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                const icon = themeToggle.querySelector('.material-icons');
+                icon.textContent = currentTheme === 'light' ? 'light_mode' : 'dark_mode';
+            });
+
+            // Refresh button animation
+            const refreshButton = document.getElementById('refresh-button');
+            refreshButton.addEventListener('click', () => {
+                const icon = refreshButton.querySelector('.material-icons');
+                icon.classList.add('spin');
+                setTimeout(() => {
+                    icon.classList.remove('spin');
+                    // Animate numbers changing
+                    animateStatValues();
+                }, 1000);
+            });
+
+            function animateStatValues() {
+                const tokenEl = document.getElementById('total-tokens');
+                const costEl = document.getElementById('total-cost');
+                const callsEl = document.getElementById('api-calls');
+                const effEl = document.getElementById('efficiency');
+                
+                // Generate new random values
+                const newTokens = Math.floor(140000 + Math.random() * 20000);
+                const newCost = (newTokens * 0.000028).toFixed(2);
+                const newCalls = Math.floor(300 + Math.random() * 100);
+                const newEff = Math.floor(newTokens / newCalls);
+                
+                // Animate changes
+                tokenEl.textContent = newTokens.toLocaleString();
+                costEl.textContent = '$' + newCost;
+                callsEl.textContent = newCalls.toString();
+                effEl.textContent = newEff.toString();
+                
+                // Add update animation
+                [tokenEl, costEl, callsEl, effEl].forEach(el => {
+                    el.style.transform = 'scale(1.1)';
+                    el.style.color = 'var(--primary-color)';
+                    setTimeout(() => {
+                        el.style.transform = 'scale(1)';
+                        el.style.color = '';
+                    }, 300);
+                });
+            }
+
+            // Initialize chart
+            const canvas = document.getElementById('usage-chart');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                
+                // Generate sample data
+                const labels = [];
+                const data = [];
+                for (let i = 29; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+                    data.push(Math.floor(800 + Math.random() * 400));
+                }
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Tokens Used',
+                            data: data,
+                            borderColor: '#3498DB',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'var(--text-secondary)'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: 'var(--text-secondary)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            console.log('✅ Demo mode loaded successfully!');
+            console.log('This is a simplified version showing mock data.');
+            console.log('All animations and interactions should work perfectly.');
+        });
+    </script>
+
+    <style>
+        .spin { animation: spin 1s linear; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .chart-loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .chart-loading.hidden { display: none; }
+    </style>
+</body>
+</html>

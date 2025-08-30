@@ -24,10 +24,13 @@ class ChartManager {
             // Wait for Chart.js to load
             await this.waitForChartJS();
             
-            // Get canvas element
+            // Get canvas element with retry mechanism
             this.canvas = document.getElementById('usage-chart');
             if (!this.canvas) {
-                console.warn('[Charts] Chart canvas not found');
+                console.log('[Charts] Chart canvas not found, retrying in 500ms...');
+                setTimeout(() => {
+                    this.init();
+                }, 500);
                 return;
             }
             
@@ -39,6 +42,8 @@ class ChartManager {
             
         } catch (error) {
             console.error('[Charts] Failed to initialize:', error);
+            // Don't fail completely - just mark as not initialized
+            this.isInitialized = false;
         }
     }
     

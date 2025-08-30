@@ -93,6 +93,8 @@ class GoogleAuthManager {
      */
     initializeGIS() {
         try {
+            console.log('[GoogleAuth] Initializing Google Identity Services...');
+            
             // Initialize Google Sign-In button
             google.accounts.id.initialize({
                 client_id: GOOGLE_CONFIG.clientId,
@@ -102,14 +104,22 @@ class GoogleAuthManager {
                 use_fedcm_for_prompt: true
             });
             
-            // Render the sign-in button
-            this.renderSignInButton();
-            
             console.log('[GoogleAuth] Google Identity Services initialized');
+            
+            // Try to render the sign-in button (may fail if DOM not ready)
+            const buttonRendered = this.renderSignInButton();
+            if (!buttonRendered) {
+                console.log('[GoogleAuth] Button rendering deferred - will retry when DOM is ready');
+                // Retry button rendering after a delay
+                setTimeout(() => {
+                    this.renderSignInButton();
+                }, 1000);
+            }
             
         } catch (error) {
             console.error('[GoogleAuth] Failed to initialize GIS:', error);
-            throw error;
+            // Don't throw - let the app continue with manual auth
+            this.handleInitializationError(error);
         }
     }
     
@@ -119,8 +129,9 @@ class GoogleAuthManager {
     renderSignInButton() {
         const buttonContainer = document.getElementById('google-signin-button');
         if (!buttonContainer) {
-            console.warn('[GoogleAuth] Sign-in button container not found');
-            return;
+            console.warn('[GoogleAuth] Sign-in button container not found - this is normal during initialization');
+            // Don't throw error, just return - this is expected during early initialization
+            return false;
         }
         
         // Clear loading state
@@ -138,7 +149,8 @@ class GoogleAuthManager {
                 width: '100%'
             });
             
-            console.log('[GoogleAuth] Sign-in button rendered');
+            console.log('[GoogleAuth] Sign-in button rendered successfully');
+            return true;
             
         } catch (error) {
             console.error('[GoogleAuth] Failed to render sign-in button:', error);
@@ -487,16 +499,36 @@ let googleAuthManager;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    googleAuthManager = new GoogleAuthManager();
-    
-    // Make it globally available
-    window.googleAuthManager = googleAuthManager;
+    try {
+        console.log('[GoogleAuth] Creating GoogleAuthManager...');
+        googleAuthManager = new GoogleAuthManager();
+        
+        // Make it globally available
+        window.googleAuthManager = googleAuthManager;
+        console.log('[GoogleAuth] GoogleAuthManager created successfully');
+        
+    } catch (error) {
+        console.error('[GoogleAuth] Failed to create GoogleAuthManager:', error);
+        
+        // Create a fallback object to prevent other errors
+        window.googleAuthManager = {
+            isInitialized: false,
+            isSignedIn: () => false,
+            getCurrentUser: () => null,
+            signOut: () => Promise.resolve(),
+            init: () => Promise.reject(error)
+        };
+    }
 });
 
 // Global callback for Google library load
 window.onGoogleLibraryLoad = () => {
     console.log('[GoogleAuth] Google library load callback triggered');
-    if (googleAuthManager) {
-        googleAuthManager.onGoogleLibraryLoad();
+    if (googleAuthManager && googleAuthManager.onGoogleLibraryLoad) {
+        try {
+            googleAuthManager.onGoogleLibraryLoad();
+        } catch (error) {
+            console.error('[GoogleAuth] Error in library load callback:', error);
+        }
     }
 };

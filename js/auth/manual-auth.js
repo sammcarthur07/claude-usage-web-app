@@ -19,14 +19,14 @@ class ManualAuthManager {
         try {
             console.log('[ManualAuth] Initializing manual authentication...');
             
-            // Get form elements
-            this.loginForm = document.getElementById('manual-login-form');
-            this.toggleButton = document.getElementById('manual-login-toggle');
-            this.loginButton = document.getElementById('manual-login-btn');
-            this.passwordToggle = document.getElementById('toggle-password');
+            // Try to get form elements with retry mechanism
+            this.findElements();
             
             if (!this.loginForm || !this.toggleButton) {
-                console.warn('[ManualAuth] Required elements not found');
+                console.log('[ManualAuth] Elements not ready yet, retrying in 500ms...');
+                setTimeout(() => {
+                    this.init();
+                }, 500);
                 return;
             }
             
@@ -41,7 +41,19 @@ class ManualAuthManager {
             
         } catch (error) {
             console.error('[ManualAuth] Failed to initialize:', error);
+            // Don't fail completely - create fallback object
+            this.isInitialized = false;
         }
+    }
+    
+    /**
+     * Find DOM elements
+     */
+    findElements() {
+        this.loginForm = document.getElementById('manual-login-form');
+        this.toggleButton = document.getElementById('manual-login-toggle');
+        this.loginButton = document.getElementById('manual-login-btn');
+        this.passwordToggle = document.getElementById('toggle-password');
     }
     
     /**
