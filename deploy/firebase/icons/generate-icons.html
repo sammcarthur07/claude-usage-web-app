@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate PWA Icons</title>
+</head>
+<body>
+    <h2>Claude Usage Monitor - Icon Generator</h2>
+    <p>This page generates icons for the PWA. Save each canvas as PNG with the specified filename.</p>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        sizes.forEach(size => {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            canvas.style.border = '1px solid #ccc';
+            canvas.style.margin = '10px';
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#3498DB');
+            gradient.addColorStop(1, '#2C3E50');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Icon text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.3}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('CM', size / 2, size / 2);
+            
+            // Add to page
+            const container = document.createElement('div');
+            container.style.display = 'inline-block';
+            container.style.textAlign = 'center';
+            
+            const label = document.createElement('p');
+            label.textContent = `icon-${size}.png`;
+            
+            const downloadLink = document.createElement('a');
+            downloadLink.download = `icon-${size}.png`;
+            downloadLink.href = canvas.toDataURL('image/png');
+            downloadLink.textContent = 'Download';
+            downloadLink.style.display = 'block';
+            downloadLink.style.marginTop = '5px';
+            
+            container.appendChild(canvas);
+            container.appendChild(label);
+            container.appendChild(downloadLink);
+            document.body.appendChild(container);
+        });
+    </script>
+</body>
+</html>

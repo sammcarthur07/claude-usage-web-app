@@ -1,0 +1,92 @@
+// Android Build Configuration for Claude Usage Monitor
+// For use with Firebase App Builder or Android Studio TWA
+
+android {
+    namespace 'com.claude.usagemonitor'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.claude.usagemonitor"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0.0"
+
+        // S23 Ultra specific optimizations
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        
+        // PWA configuration
+        manifestPlaceholders = [
+            hostName: "claude-usage-monitor-firebase.web.app",
+            defaultUrl: "https://claude-usage-monitor-firebase.web.app/",
+            launcherName: "Claude Usage Monitor"
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            
+            // Signing configuration for release builds
+            signingConfig signingConfigs.create("release") {
+                // Configure with your keystore
+            }
+        }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // S23 Ultra display support
+    buildFeatures {
+        viewBinding true
+    }
+
+    // Resource optimization
+    bundle {
+        density {
+            enableSplit true
+        }
+        abi {
+            enableSplit true
+        }
+        language {
+            enableSplit false
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.browser:browser:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    
+    // TWA dependencies
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+    implementation 'com.google.androidbrowserhelper:billing:1.0.0-alpha10'
+    
+    // For enhanced WebView features
+    implementation 'androidx.webkit:webkit:1.7.0'
+}
+
+// ProGuard rules for PWA optimization
+def proguardRules = """
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+-keepattributes JavascriptInterface
+-keepattributes *Annotation*
+-dontwarn androidx.browser.trusted.**
+"""

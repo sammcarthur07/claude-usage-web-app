@@ -1,0 +1,528 @@
+/**
+ * Authentication Screen Styles
+ * Optimized for Samsung S23 Ultra (412x915px) and mobile devices
+ */
+
+/* Login Screen Layout */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+/* Login Container */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, 
+        var(--bg-primary) 0%, 
+        var(--bg-secondary) 100%);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 16px;
+    box-shadow: var(--shadow-large);
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* App Header */
+.app-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.app-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-medium);
+}
+
+.logo-icon .material-icons {
+    font-size: 32px;
+    color: white;
+}
+
+.app-logo h1 {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.app-logo p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Connection Status */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 24px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.status-dot.online {
+    background-color: var(--success-color);
+    box-shadow: 0 0 8px var(--success-color);
+}
+
+.status-dot.offline {
+    background-color: var(--error-color);
+    box-shadow: 0 0 8px var(--error-color);
+}
+
+/* Auth Sections */
+.auth-section {
+    margin-bottom: 1.5rem;
+}
+
+.auth-section.primary {
+    border-bottom: 1px solid var(--border-secondary);
+    padding-bottom: 1.5rem;
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.auth-title h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+}
+
+.auth-title p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Google Sign-In */
+.google-signin-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    background: var(--surface-primary);
+    transition: all 0.2s ease;
+}
+
+.google-signin-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.google-signin-loading .material-icons {
+    font-size: 18px;
+    animation: spin 1s linear infinite;
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-secondary);
+}
+
+.divider span {
+    padding: 0 1rem;
+}
+
+/* Manual Login Toggle */
+.manual-login-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.manual-login-toggle:hover {
+    background: var(--surface-tertiary);
+    transform: translateY(-1px);
+}
+
+.manual-login-toggle .material-icons {
+    font-size: 18px;
+}
+
+/* Manual Login Form */
+.manual-login-form {
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.manual-login-form.hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+    background: var(--surface-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-color-alpha);
+}
+
+.input-group input::placeholder {
+    color: var(--text-secondary);
+}
+
+.input-group > .material-icons {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.toggle-password:hover {
+    color: var(--text-primary);
+    background: var(--surface-secondary);
+}
+
+.toggle-password .material-icons {
+    font-size: 18px;
+}
+
+/* Remember Me */
+.remember-me {
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-primary);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.checkbox-container input:checked + .checkmark {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-container input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Login Button */
+.login-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button:hover {
+    background: var(--primary-color-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-medium);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.login-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button-icon {
+    animation: spin 1s linear infinite;
+}
+
+.button-icon.hidden {
+    display: none;
+}
+
+.login-button:disabled .button-text {
+    opacity: 0;
+}
+
+.login-button:disabled .button-icon {
+    display: block;
+}
+
+/* Privacy Notice */
+.privacy-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.privacy-notice .material-icons {
+    color: var(--success-color);
+    font-size: 18px;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.privacy-notice p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media screen and (max-height: 800px) {
+    .login-container {
+        padding: 1rem;
+    }
+    
+    .login-card {
+        padding: 1.5rem;
+    }
+    
+    .app-logo h1 {
+        font-size: 1.25rem;
+    }
+    
+    .logo-icon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .logo-icon .material-icons {
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .login-container {
+        padding: 0.5rem;
+    }
+    
+    .login-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .app-logo h1 {
+        font-size: 1.125rem;
+    }
+}
+
+/* Samsung S23 Ultra Specific Optimizations */
+@media screen and (width: 412px) and (height: 915px) {
+    .login-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .login-card {
+        max-width: 360px;
+    }
+    
+    /* Optimize for 120Hz display */
+    * {
+        transition-duration: 0.15s;
+    }
+    
+    .manual-login-form {
+        transition-duration: 0.2s;
+    }
+}
+
+/* Dark Theme Adjustments */
+[data-theme="dark"] .login-container {
+    background: linear-gradient(135deg, #1A1A1A 0%, #2D2D30 100%);
+}
+
+[data-theme="dark"] .login-card {
+    background: rgba(42, 42, 46, 0.95);
+    border-color: #404040;
+}
+
+[data-theme="dark"] .google-signin-placeholder {
+    background: var(--surface-secondary);
+    border-color: var(--border-secondary);
+}
+
+/* Loading States */
+.auth-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.auth-loading * {
+    cursor: wait !important;
+}
+
+/* Error States */
+.input-error {
+    border-color: var(--error-color) !important;
+    box-shadow: 0 0 0 3px var(--error-color-alpha) !important;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.error-message .material-icons {
+    font-size: 14px;
+}

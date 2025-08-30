@@ -1,0 +1,472 @@
+/**
+ * Animation Override CSS - Force animations despite Android developer settings
+ * Uses !important declarations to bypass system animation disabling
+ * Optimized for Samsung S23 Ultra 120Hz display
+ */
+
+/* Force Global Animation Override */
+*, *::before, *::after {
+    /* Override system animation settings with !important */
+    -webkit-animation-duration: 0.3s !important;
+    animation-duration: 0.3s !important;
+    -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    -webkit-animation-fill-mode: both !important;
+    animation-fill-mode: both !important;
+    
+    /* Force transitions to override system settings */
+    -webkit-transition-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    
+    /* Ensure animations are not disabled */
+    -webkit-animation-play-state: running !important;
+    animation-play-state: running !important;
+}
+
+/* Hardware Acceleration for Smooth Performance */
+.force-gpu {
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    will-change: transform, opacity !important;
+}
+
+/* Custom Forced Keyframes - Cannot be disabled by system */
+@-webkit-keyframes forceSpinOverride {
+    0% { -webkit-transform: rotate(0deg) !important; transform: rotate(0deg) !important; }
+    100% { -webkit-transform: rotate(360deg) !important; transform: rotate(360deg) !important; }
+}
+
+@keyframes forceSpinOverride {
+    0% { -webkit-transform: rotate(0deg) !important; transform: rotate(0deg) !important; }
+    100% { -webkit-transform: rotate(360deg) !important; transform: rotate(360deg) !important; }
+}
+
+@-webkit-keyframes forceFadeInUp {
+    0% {
+        opacity: 0 !important;
+        -webkit-transform: translateY(20px) !important;
+        transform: translateY(20px) !important;
+    }
+    100% {
+        opacity: 1 !important;
+        -webkit-transform: translateY(0) !important;
+        transform: translateY(0) !important;
+    }
+}
+
+@keyframes forceFadeInUp {
+    0% {
+        opacity: 0 !important;
+        -webkit-transform: translateY(20px) !important;
+        transform: translateY(20px) !important;
+    }
+    100% {
+        opacity: 1 !important;
+        -webkit-transform: translateY(0) !important;
+        transform: translateY(0) !important;
+    }
+}
+
+@-webkit-keyframes forceFadeOutDown {
+    0% {
+        opacity: 1 !important;
+        -webkit-transform: translateY(0) scale(1) !important;
+        transform: translateY(0) scale(1) !important;
+    }
+    100% {
+        opacity: 0.3 !important;
+        -webkit-transform: translateY(10px) scale(0.95) !important;
+        transform: translateY(10px) scale(0.95) !important;
+    }
+}
+
+@keyframes forceFadeOutDown {
+    0% {
+        opacity: 1 !important;
+        -webkit-transform: translateY(0) scale(1) !important;
+        transform: translateY(0) scale(1) !important;
+    }
+    100% {
+        opacity: 0.3 !important;
+        -webkit-transform: translateY(10px) scale(0.95) !important;
+        transform: translateY(10px) scale(0.95) !important;
+    }
+}
+
+@-webkit-keyframes forceSlideInRight {
+    0% {
+        -webkit-transform: translateX(100%) !important;
+        transform: translateX(100%) !important;
+        opacity: 0 !important;
+    }
+    100% {
+        -webkit-transform: translateX(0) !important;
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+    }
+}
+
+@keyframes forceSlideInRight {
+    0% {
+        -webkit-transform: translateX(100%) !important;
+        transform: translateX(100%) !important;
+        opacity: 0 !important;
+    }
+    100% {
+        -webkit-transform: translateX(0) !important;
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+    }
+}
+
+@-webkit-keyframes forcePulse {
+    0%, 100% {
+        opacity: 1 !important;
+        -webkit-transform: scale(1) !important;
+        transform: scale(1) !important;
+    }
+    50% {
+        opacity: 0.7 !important;
+        -webkit-transform: scale(1.05) !important;
+        transform: scale(1.05) !important;
+    }
+}
+
+@keyframes forcePulse {
+    0%, 100% {
+        opacity: 1 !important;
+        -webkit-transform: scale(1) !important;
+        transform: scale(1) !important;
+    }
+    50% {
+        opacity: 0.7 !important;
+        -webkit-transform: scale(1.05) !important;
+        transform: scale(1.05) !important;
+    }
+}
+
+@-webkit-keyframes forceShake {
+    0%, 100% { -webkit-transform: translateX(0) !important; transform: translateX(0) !important; }
+    10%, 30%, 50%, 70%, 90% { -webkit-transform: translateX(-2px) !important; transform: translateX(-2px) !important; }
+    20%, 40%, 60%, 80% { -webkit-transform: translateX(2px) !important; transform: translateX(2px) !important; }
+}
+
+@keyframes forceShake {
+    0%, 100% { -webkit-transform: translateX(0) !important; transform: translateX(0) !important; }
+    10%, 30%, 50%, 70%, 90% { -webkit-transform: translateX(-2px) !important; transform: translateX(-2px) !important; }
+    20%, 40%, 60%, 80% { -webkit-transform: translateX(2px) !important; transform: translateX(2px) !important; }
+}
+
+@-webkit-keyframes forceBounce {
+    0%, 20%, 53%, 80%, 100% {
+        -webkit-transform: translate3d(0, 0, 0) !important;
+        transform: translate3d(0, 0, 0) !important;
+    }
+    40%, 43% {
+        -webkit-transform: translate3d(0, -8px, 0) !important;
+        transform: translate3d(0, -8px, 0) !important;
+    }
+    70% {
+        -webkit-transform: translate3d(0, -4px, 0) !important;
+        transform: translate3d(0, -4px, 0) !important;
+    }
+    90% {
+        -webkit-transform: translate3d(0, -1px, 0) !important;
+        transform: translate3d(0, -1px, 0) !important;
+    }
+}
+
+@keyframes forceBounce {
+    0%, 20%, 53%, 80%, 100% {
+        -webkit-transform: translate3d(0, 0, 0) !important;
+        transform: translate3d(0, 0, 0) !important;
+    }
+    40%, 43% {
+        -webkit-transform: translate3d(0, -8px, 0) !important;
+        transform: translate3d(0, -8px, 0) !important;
+    }
+    70% {
+        -webkit-transform: translate3d(0, -4px, 0) !important;
+        transform: translate3d(0, -4px, 0) !important;
+    }
+    90% {
+        -webkit-transform: translate3d(0, -1px, 0) !important;
+        transform: translate3d(0, -1px, 0) !important;
+    }
+}
+
+/* Force Animation Classes */
+.force-spin {
+    -webkit-animation: forceSpinOverride 1s linear infinite !important;
+    animation: forceSpinOverride 1s linear infinite !important;
+}
+
+.force-fade-in-up {
+    -webkit-animation: forceFadeInUp 0.3s ease-out forwards !important;
+    animation: forceFadeInUp 0.3s ease-out forwards !important;
+}
+
+.force-fade-out-down {
+    -webkit-animation: forceFadeOutDown 0.3s ease-in forwards !important;
+    animation: forceFadeOutDown 0.3s ease-in forwards !important;
+}
+
+.force-slide-in-right {
+    -webkit-animation: forceSlideInRight 0.3s ease-out forwards !important;
+    animation: forceSlideInRight 0.3s ease-out forwards !important;
+}
+
+.force-pulse {
+    -webkit-animation: forcePulse 2s ease-in-out infinite !important;
+    animation: forcePulse 2s ease-in-out infinite !important;
+}
+
+.force-shake {
+    -webkit-animation: forceShake 0.5s ease-in-out !important;
+    animation: forceShake 0.5s ease-in-out !important;
+}
+
+.force-bounce {
+    -webkit-animation: forceBounce 1s ease-out !important;
+    animation: forceBounce 1s ease-out !important;
+}
+
+/* Real-time Update Animations */
+.updating {
+    opacity: 0.3 !important;
+    -webkit-transform: scale(0.95) !important;
+    transform: scale(0.95) !important;
+    -webkit-transition: all 0.15s ease-in !important;
+    transition: all 0.15s ease-in !important;
+}
+
+.updated {
+    opacity: 1 !important;
+    -webkit-transform: scale(1) translateY(0) !important;
+    transform: scale(1) translateY(0) !important;
+    -webkit-transition: all 0.3s ease-out !important;
+    transition: all 0.3s ease-out !important;
+}
+
+.updating-complete {
+    -webkit-animation: forceBounce 0.6s ease-out !important;
+    animation: forceBounce 0.6s ease-out !important;
+}
+
+/* Theme Transition Overrides */
+.theme-transitioning * {
+    -webkit-transition: background-color 0.2s ease !important,
+                       color 0.2s ease !important,
+                       border-color 0.2s ease !important,
+                       box-shadow 0.2s ease !important,
+                       fill 0.2s ease !important,
+                       stroke 0.2s ease !important;
+    transition: background-color 0.2s ease !important,
+               color 0.2s ease !important,
+               border-color 0.2s ease !important,
+               box-shadow 0.2s ease !important,
+               fill 0.2s ease !important,
+               stroke 0.2s ease !important;
+}
+
+/* Button Animation Overrides */
+button, .clickable {
+    -webkit-transition: all 0.15s ease !important;
+    transition: all 0.15s ease !important;
+}
+
+button:hover, .clickable:hover {
+    -webkit-transform: scale(1.05) translateZ(0) !important;
+    transform: scale(1.05) translateZ(0) !important;
+}
+
+button:active, .clickable:active {
+    -webkit-transform: scale(0.95) translateZ(0) !important;
+    transform: scale(0.95) translateZ(0) !important;
+}
+
+/* Card Hover Animations */
+.stat-card, .source-card, .chart-container {
+    -webkit-transition: all 0.2s ease !important;
+    transition: all 0.2s ease !important;
+}
+
+.stat-card:hover, .source-card:hover {
+    -webkit-transform: translateY(-4px) translateZ(0) !important;
+    transform: translateY(-4px) translateZ(0) !important;
+}
+
+/* Loading Animation Overrides */
+.loading-spinner .material-icons {
+    -webkit-animation: forceSpinOverride 1s linear infinite !important;
+    animation: forceSpinOverride 1s linear infinite !important;
+}
+
+/* Refresh Indicator */
+.refresh-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--success-color);
+    border-radius: 50%;
+    -webkit-transform: translate(-50%, -50%) scale(0) !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+    -webkit-transition: all 0.2s ease !important;
+    transition: all 0.2s ease !important;
+}
+
+.refresh-indicator.active {
+    -webkit-transform: translate(-50%, -50%) scale(1) !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    -webkit-animation: forcePulse 1s ease-in-out infinite !important;
+    animation: forcePulse 1s ease-in-out infinite !important;
+}
+
+/* Screen Transition Overrides */
+.screen {
+    -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.screen.active {
+    -webkit-transform: translateX(0) !important;
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+}
+
+.screen:not(.active) {
+    -webkit-transform: translateX(20px) !important;
+    transform: translateX(20px) !important;
+    opacity: 0 !important;
+}
+
+/* Toast Animation Override */
+.toast {
+    -webkit-transform: translateX(100%) !important;
+    transform: translateX(100%) !important;
+    opacity: 0 !important;
+    -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.toast.show {
+    -webkit-transform: translateX(0) !important;
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+}
+
+/* Progress Bar Animations */
+.progress-fill {
+    -webkit-transition: width 0.5s ease-out !important;
+    transition: width 0.5s ease-out !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+}
+
+/* Chart Loading Animation */
+.chart-loading {
+    -webkit-animation: forceFadeInUp 0.3s ease-out !important;
+    animation: forceFadeInUp 0.3s ease-out !important;
+}
+
+.chart-loading .material-icons {
+    -webkit-animation: forceSpinOverride 1s linear infinite !important;
+    animation: forceSpinOverride 1s linear infinite !important;
+}
+
+/* Samsung S23 Ultra 120Hz Optimizations */
+@media screen and (min-width: 412px) and (max-width: 414px) and (min-height: 915px) and (max-height: 920px) {
+    /* Reduce animation durations for 120Hz display */
+    *, *::before, *::after {
+        -webkit-animation-duration: 0.15s !important;
+        animation-duration: 0.15s !important;
+        -webkit-transition-duration: 0.1s !important;
+        transition-duration: 0.1s !important;
+    }
+    
+    /* Faster real-time updates for 120Hz */
+    .updating {
+        -webkit-transition: all 0.08s ease-in !important;
+        transition: all 0.08s ease-in !important;
+    }
+    
+    .updated {
+        -webkit-transition: all 0.15s ease-out !important;
+        transition: all 0.15s ease-out !important;
+    }
+    
+    /* Optimize theme transitions for 120Hz */
+    .theme-transitioning * {
+        -webkit-transition-duration: 0.1s !important;
+        transition-duration: 0.1s !important;
+    }
+}
+
+/* High Refresh Rate Display Optimization */
+@media (min-resolution: 120dpi) {
+    /* Further optimize for high refresh displays */
+    * {
+        -webkit-animation-duration: 0.12s !important;
+        animation-duration: 0.12s !important;
+    }
+    
+    .force-spin {
+        -webkit-animation-duration: 0.8s !important;
+        animation-duration: 0.8s !important;
+    }
+}
+
+/* Override Android System Animation Settings */
+@media (prefers-reduced-motion: reduce) {
+    /* Even with reduced motion preference, maintain essential animations */
+    .force-spin,
+    .loading-spinner .material-icons,
+    .refresh-indicator.active {
+        -webkit-animation: forceSpinOverride 1.5s linear infinite !important;
+        animation: forceSpinOverride 1.5s linear infinite !important;
+    }
+    
+    /* Keep critical UI feedback animations */
+    button:hover,
+    .clickable:hover {
+        -webkit-transform: scale(1.02) !important;
+        transform: scale(1.02) !important;
+    }
+    
+    /* Maintain theme transitions even with reduced motion */
+    .theme-transitioning * {
+        -webkit-transition: background-color 0.1s ease !important,
+                           color 0.1s ease !important;
+        transition: background-color 0.1s ease !important,
+                   color 0.1s ease !important;
+    }
+}
+
+/* Developer Options Animation Override */
+@supports (-webkit-appearance: none) {
+    /* WebKit-specific overrides for Android */
+    * {
+        -webkit-animation-play-state: running !important;
+        -webkit-transition-delay: 0s !important;
+    }
+}
+
+/* Force Enable Animations on Android WebView */
+@media screen and (-webkit-min-device-pixel-ratio: 1) {
+    .force-animate {
+        -webkit-animation-name: forceFadeInUp !important;
+        animation-name: forceFadeInUp !important;
+        -webkit-animation-duration: 0.3s !important;
+        animation-duration: 0.3s !important;
+        -webkit-animation-fill-mode: both !important;
+        animation-fill-mode: both !important;
+        -webkit-animation-timing-function: ease-out !important;
+        animation-timing-function: ease-out !important;
+    }
+}

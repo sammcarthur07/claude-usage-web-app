@@ -1,0 +1,24 @@
+{
+  "name": "claude-usage-monitor-pwa",
+  "version": "1.0.0",
+  "description": "Progressive Web App for monitoring Claude AI usage with real-time statistics, charts, and secure authentication",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "serve": "npx serve -s .",
+    "build": "echo 'PWA ready for deployment'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "usage-monitor",
+    "pwa",
+    "anthropic"
+  ],
+  "author": "Claude Usage Monitor",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

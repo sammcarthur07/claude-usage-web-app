@@ -1,0 +1,605 @@
+/**
+ * Responsive Design System
+ * Optimized for Samsung S23 Ultra and various mobile devices
+ * Breakpoints: 320px, 375px, 412px (S23 Ultra), 768px, 1024px
+ */
+
+/* Base Mobile-First Design */
+@media screen and (max-width: 319px) {
+    /* Ultra-small devices */
+    .app-container {
+        font-size: 14px;
+    }
+    
+    .login-card,
+    .dashboard-container {
+        padding: 0.75rem;
+        margin: 0.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .stat-card {
+        padding: 0.75rem;
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .header-actions {
+        gap: 0.25rem;
+    }
+    
+    .action-button {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .action-button .material-icons {
+        font-size: 18px;
+    }
+}
+
+/* Small Mobile Devices (320px - 374px) */
+@media screen and (min-width: 320px) and (max-width: 374px) {
+    .login-card {
+        max-width: 280px;
+        padding: 1rem;
+    }
+    
+    .dashboard-header {
+        padding: 1rem 0.75rem;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .user-profile {
+        justify-content: center;
+    }
+    
+    .header-actions {
+        justify-content: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+    
+    .stat-card {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .stat-header h3 {
+        font-size: 0.75rem;
+    }
+    
+    .stat-number {
+        font-size: 1.125rem;
+    }
+    
+    .chart-container {
+        padding: 0.75rem;
+    }
+    
+    .chart-controls {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .chart-toggle {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+}
+
+/* Standard Mobile Devices (375px - 411px) */
+@media screen and (min-width: 375px) and (max-width: 411px) {
+    .login-card {
+        max-width: 320px;
+    }
+    
+    .dashboard-header {
+        padding: 1rem;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .stat-card {
+        padding: 1rem 0.75rem;
+    }
+    
+    .chart-controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .model-breakdown {
+        gap: 0.75rem;
+    }
+    
+    .sources-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .source-card {
+        padding: 0.75rem;
+    }
+}
+
+/* Samsung S23 Ultra Specific (412px x 915px) */
+@media screen and (width: 412px) and (height: 915px) {
+    /* Exact S23 Ultra dimensions optimization */
+    .app-container {
+        height: 915px;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+    }
+    
+    .login-container {
+        padding: 2rem 1.5rem;
+        min-height: 915px;
+    }
+    
+    .login-card {
+        max-width: 350px;
+        padding: 1.75rem;
+    }
+    
+    .dashboard-container {
+        height: 915px;
+        overflow-y: auto;
+    }
+    
+    .dashboard-header {
+        position: sticky;
+        top: 0;
+        background: var(--bg-primary);
+        backdrop-filter: blur(10px);
+        z-index: 10;
+        border-bottom: 1px solid var(--border-primary);
+        padding: 1rem 1.25rem;
+    }
+    
+    .dashboard-content {
+        padding: 1.25rem;
+        padding-top: 0;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+        min-height: 100px;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    
+    .chart-container {
+        margin-bottom: 1.5rem;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    .chart-content canvas {
+        height: 250px !important;
+    }
+    
+    .breakdown-section,
+    .sources-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .model-breakdown {
+        gap: 1rem;
+    }
+    
+    .sources-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.75rem;
+    }
+    
+    .source-card {
+        padding: 0.875rem 0.625rem;
+        text-align: center;
+    }
+    
+    .source-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.375rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .source-header h4 {
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    
+    .source-number {
+        font-size: 1.125rem;
+        font-weight: 700;
+    }
+    
+    .source-label {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 500;
+        margin-top: 0.25rem;
+    }
+    
+    /* 120Hz Display Optimizations */
+    * {
+        transition-duration: 0.12s;
+        animation-duration: 0.12s;
+    }
+    
+    .updating {
+        transition: all 0.08s ease-in;
+    }
+    
+    .updated {
+        transition: all 0.15s ease-out;
+    }
+    
+    /* Touch optimizations for S23 Ultra */
+    button, .clickable {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .action-button {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .chart-toggle {
+        padding: 0.5rem 1rem;
+        min-height: 40px;
+    }
+}
+
+/* Large Mobile Devices and Small Tablets (413px - 767px) */
+@media screen and (min-width: 413px) and (max-width: 767px) {
+    .login-card {
+        max-width: 380px;
+        padding: 2rem;
+    }
+    
+    .dashboard-header {
+        padding: 1.25rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+    }
+    
+    .stat-card {
+        padding: 1.25rem;
+    }
+    
+    .chart-content canvas {
+        height: 280px !important;
+    }
+    
+    .sources-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .model-breakdown {
+        gap: 1.25rem;
+    }
+}
+
+/* Tablets and Large Screens (768px+) */
+@media screen and (min-width: 768px) {
+    .login-container {
+        padding: 3rem 2rem;
+    }
+    
+    .login-card {
+        max-width: 420px;
+        padding: 2.5rem;
+    }
+    
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+    
+    .dashboard-header {
+        padding: 1.5rem 0;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        padding: 1.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .chart-container {
+        margin-bottom: 2rem;
+    }
+    
+    .chart-content canvas {
+        height: 320px !important;
+    }
+    
+    .breakdown-section,
+    .sources-section {
+        margin-bottom: 2rem;
+    }
+    
+    .sources-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .model-breakdown {
+        gap: 1.5rem;
+    }
+}
+
+/* Desktop and Large Screens (1024px+) */
+@media screen and (min-width: 1024px) {
+    .dashboard-container {
+        max-width: 1400px;
+        padding: 0 3rem;
+    }
+    
+    .dashboard-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+    
+    .main-dashboard {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .sidebar-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .stats-section {
+        grid-column: 1 / -1;
+    }
+    
+    .charts-section {
+        grid-column: 1;
+    }
+    
+    .breakdown-section,
+    .sources-section {
+        grid-column: 2;
+    }
+    
+    .chart-content canvas {
+        height: 400px !important;
+    }
+}
+
+/* Landscape Orientation */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    .login-container {
+        padding: 1rem;
+        align-items: flex-start;
+        justify-content: flex-start;
+        overflow-y: auto;
+    }
+    
+    .login-card {
+        margin-top: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .app-logo h1 {
+        font-size: 1.25rem;
+    }
+    
+    .logo-icon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .logo-icon .material-icons {
+        font-size: 24px;
+    }
+    
+    .dashboard-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .stat-card {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .stat-number {
+        font-size: 1.125rem;
+    }
+    
+    .chart-content canvas {
+        height: 200px !important;
+    }
+}
+
+/* High DPI Displays */
+@media screen and (min-resolution: 2dppx) {
+    .logo-icon,
+    .avatar,
+    .status-dot {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+    
+    .chart-content canvas {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .force-spin,
+    .loading-spinner .material-icons,
+    .refresh-indicator.active {
+        animation: none !important;
+    }
+    
+    .screen {
+        transition: opacity 0.01ms;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .login-screen,
+    .header-actions,
+    .loading-overlay,
+    .toast-container {
+        display: none !important;
+    }
+    
+    .dashboard-screen {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .dashboard-container {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .stat-card,
+    .chart-container,
+    .source-card {
+        border: 1px solid #ddd !important;
+        break-inside: avoid;
+    }
+    
+    .chart-content canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Dark Mode Responsive Adjustments */
+[data-theme="dark"] {
+    @media screen and (max-width: 412px) {
+        .dashboard-header {
+            background: rgba(26, 26, 26, 0.95);
+        }
+        
+        .stat-card {
+            background: rgba(42, 42, 46, 0.8);
+        }
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-contrast: high) {
+    .stat-card,
+    .chart-container,
+    .source-card,
+    .login-card {
+        border-width: 2px;
+        border-color: var(--text-primary);
+    }
+    
+    .status-dot.online {
+        border: 2px solid var(--success-color);
+    }
+    
+    .status-dot.offline {
+        border: 2px solid var(--error-color);
+    }
+}
+
+/* Focus Management for Mobile */
+@media (hover: none) {
+    .stat-card:hover,
+    .source-card:hover,
+    button:hover,
+    .clickable:hover {
+        transform: none;
+    }
+    
+    .stat-card:active,
+    .source-card:active {
+        transform: scale(0.98);
+    }
+    
+    button:active,
+    .clickable:active {
+        transform: scale(0.95);
+    }
+}
+
+/* Safe Area Adjustments for Notched Devices */
+@supports (padding: max(0px)) {
+    .login-container {
+        padding-top: max(2rem, env(safe-area-inset-top));
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .dashboard-header {
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .dashboard-content {
+        padding-left: max(1.25rem, env(safe-area-inset-left));
+        padding-right: max(1.25rem, env(safe-area-inset-right));
+        padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
+}
