@@ -14,7 +14,13 @@ class GoogleAuthManager {
         this.handleCredentialResponse = this.handleCredentialResponse.bind(this);
         this.onGoogleLibraryLoad = this.onGoogleLibraryLoad.bind(this);
         
-        this.init();
+        // Defer initialization to avoid constructor errors
+        setTimeout(() => {
+            this.init().catch(error => {
+                console.error('[GoogleAuth] Deferred init failed:', error);
+                this.handleInitializationError(error);
+            });
+        }, 100);
     }
     
     /**
@@ -94,6 +100,15 @@ class GoogleAuthManager {
     initializeGIS() {
         try {
             console.log('[GoogleAuth] Initializing Google Identity Services...');
+            
+            // Check if GOOGLE_CONFIG is available
+            if (typeof GOOGLE_CONFIG === 'undefined') {
+                throw new Error('GOOGLE_CONFIG is not defined - config.js may not be loaded');
+            }
+            
+            if (!GOOGLE_CONFIG.clientId) {
+                throw new Error('Google Client ID is not configured');
+            }
             
             // Initialize Google Sign-In button
             google.accounts.id.initialize({

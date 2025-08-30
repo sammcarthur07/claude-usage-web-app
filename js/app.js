@@ -74,9 +74,16 @@ class Application {
         // Initialize optional managers with error handling
         for (const managerName of optionalManagers) {
             try {
-                await this.waitForManager(managerName, 10000); // Longer timeout
-                this.managers[managerName] = window[managerName];
-                console.log(`[App] ${managerName} initialized successfully`);
+                const available = await this.waitForManager(managerName, 10000); // Longer timeout
+                if (available && window[managerName]) {
+                    this.managers[managerName] = window[managerName];
+                    console.log(`[App] ${managerName} initialized successfully`);
+                } else {
+                    console.warn(`[App] ${managerName} not available`);
+                    if (managerName === 'googleAuthManager') {
+                        this.handleGoogleAuthFailure(new Error('Google Auth Manager not available'));
+                    }
+                }
             } catch (error) {
                 console.warn(`[App] ${managerName} failed to initialize:`, error.message);
                 // Continue with other managers - don't fail the entire app
@@ -100,8 +107,16 @@ class Application {
         }
         
         if (!window[name]) {
+            // Don't throw for optional managers
+            if (['googleAuthManager', 'manualAuthManager', 'authManager', 'dataCollector', 'dashboardManager'].includes(name)) {
+                console.warn(`[App] ${name} not available after timeout`);
+                return false;
+            }
+            // Only throw for essential managers
             throw new Error(`${name} failed to initialize`);
         }
+        
+        return true;
     }
     
     /**

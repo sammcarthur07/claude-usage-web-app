@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Usage Monitor - Direct Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        // Immediately bypass login and show dashboard
+        window.addEventListener('DOMContentLoaded', () => {
+            // Hide login screen
+            const loginScreen = document.getElementById('login-screen');
+            if (loginScreen) {
+                loginScreen.classList.remove('active');
+                loginScreen.style.display = 'none';
+            }
+            
+            // Show dashboard
+            const dashboard = document.getElementById('dashboard');
+            if (dashboard) {
+                dashboard.classList.add('active');
+                dashboard.style.display = 'block';
+            }
+            
+            // Set mock user data
+            const userNameEl = document.getElementById('user-name');
+            const userEmailEl = document.getElementById('user-email');
+            if (userNameEl) userNameEl.textContent = 'Demo User';
+            if (userEmailEl) userEmailEl.textContent = 'demo@example.com';
+            
+            console.log('✅ Dashboard loaded directly - bypassing all authentication');
+        });
+    </script>
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Copy the full HTML from index.html but remove authentication logic -->
+        <!-- Login Screen (hidden) -->
+        <div id="login-screen" class="screen" style="display: none;">
+        </div>
+
+        <!-- Dashboard Screen (active) -->
+        <div id="dashboard" class="screen active" style="display: block;">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="user-details">
+                            <span id="user-name">Demo User</span>
+                            <span id="user-email">demo@example.com</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button id="theme-toggle" class="icon-button" title="Toggle Theme">
+                            <span class="material-icons">brightness_auto</span>
+                        </button>
+                        <button id="refresh-button" class="icon-button" title="Refresh Data">
+                            <span class="material-icons">refresh</span>
+                        </button>
+                        <button id="logout-button" class="icon-button" title="Sign Out">
+                            <span class="material-icons">logout</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Usage Summary Cards -->
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <span class="material-icons">analytics</span>
+                        <span>Total Usage</span>
+                    </div>
+                    <div class="summary-value" id="total-tokens">147,832</div>
+                    <div class="summary-label">tokens</div>
+                    <div class="summary-change positive">+23.5% this month</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <span class="material-icons">attach_money</span>
+                        <span>Total Cost</span>
+                    </div>
+                    <div class="summary-value" id="total-cost">$4.23</div>
+                    <div class="summary-label">USD</div>
+                    <div class="summary-change positive">+18.7% this month</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <span class="material-icons">api</span>
+                        <span>API Calls</span>
+                    </div>
+                    <div class="summary-value" id="api-calls">342</div>
+                    <div class="summary-label">requests</div>
+                    <div class="summary-change positive">+31.2% this month</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <span class="material-icons">speed</span>
+                        <span>Efficiency</span>
+                    </div>
+                    <div class="summary-value" id="avg-tokens">432</div>
+                    <div class="summary-label">tokens/call</div>
+                    <div class="summary-change negative">-2.1% this month</div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2>Usage Trends</h2>
+                    <div class="chart-controls">
+                        <button class="chart-type-btn active" data-type="usage">Tokens</button>
+                        <button class="chart-type-btn" data-type="cost">Cost</button>
+                        <button class="chart-type-btn" data-type="calls">Calls</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="usage-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Model Usage -->
+            <div class="model-usage-section">
+                <h2>Model Breakdown</h2>
+                <div class="model-cards">
+                    <div class="model-card">
+                        <div class="model-header">
+                            <span class="model-name">Claude 3.5 Sonnet</span>
+                            <span class="model-percentage">65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%; background: #3498DB;"></div>
+                        </div>
+                        <div class="model-stats">
+                            <span>96,091 tokens</span>
+                            <span>$2.75</span>
+                        </div>
+                    </div>
+
+                    <div class="model-card">
+                        <div class="model-header">
+                            <span class="model-name">Claude 3 Opus</span>
+                            <span class="model-percentage">25%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%; background: #9B59B6;"></div>
+                        </div>
+                        <div class="model-stats">
+                            <span>36,958 tokens</span>
+                            <span>$1.06</span>
+                        </div>
+                    </div>
+
+                    <div class="model-card">
+                        <div class="model-header">
+                            <span class="model-name">Claude 3 Haiku</span>
+                            <span class="model-percentage">10%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%; background: #27AE60;"></div>
+                        </div>
+                        <div class="model-stats">
+                            <span>14,783 tokens</span>
+                            <span>$0.42</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load minimal scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+    <script>
+        // Initialize only what's needed
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Bypass mode - loading dashboard directly');
+            
+            // Initialize theme manager
+            if (window.themeManager) {
+                console.log('✅ Theme manager initialized');
+            }
+            
+            // Initialize chart with mock data
+            setTimeout(() => {
+                if (window.chartManager && window.chartManager.isInitialized) {
+                    const mockData = [];
+                    for (let i = 29; i >= 0; i--) {
+                        const date = new Date();
+                        date.setDate(date.getDate() - i);
+                        mockData.push({
+                            date: date.toISOString().split('T')[0],
+                            tokens: Math.floor(800 + Math.random() * 400),
+                            cost: Math.random() * 0.5,
+                            calls: Math.floor(5 + Math.random() * 10)
+                        });
+                    }
+                    window.chartManager.updateChart(mockData);
+                    console.log('✅ Chart updated with mock data');
+                }
+            }, 1000);
+            
+            // Set up refresh button
+            const refreshBtn = document.getElementById('refresh-button');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', () => {
+                    refreshBtn.querySelector('.material-icons').classList.add('spin');
+                    setTimeout(() => {
+                        refreshBtn.querySelector('.material-icons').classList.remove('spin');
+                        console.log('✅ Data refreshed (mock)');
+                    }, 1000);
+                });
+            }
+            
+            console.log('✅ Bypass dashboard ready!');
+        });
+    </script>
+</body>
+</html>
