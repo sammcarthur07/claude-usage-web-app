@@ -54,15 +54,36 @@ class Application {
      * Initialize all managers
      */
     async initializeManagers() {
-        const managers = [
-            'storageManager', 'themeManager', 'chartManager',
+        // Essential managers (must succeed)
+        const essentialManagers = [
+            'storageManager', 'themeManager', 'chartManager'
+        ];
+        
+        // Optional managers (can fail gracefully)
+        const optionalManagers = [
             'googleAuthManager', 'manualAuthManager', 'authManager',
             'dataCollector', 'dashboardManager'
         ];
         
-        for (const managerName of managers) {
+        // Initialize essential managers first
+        for (const managerName of essentialManagers) {
             await this.waitForManager(managerName);
             this.managers[managerName] = window[managerName];
+        }
+        
+        // Initialize optional managers with error handling
+        for (const managerName of optionalManagers) {
+            try {
+                await this.waitForManager(managerName, 10000); // Longer timeout
+                this.managers[managerName] = window[managerName];
+                console.log(`[App] ${managerName} initialized successfully`);
+            } catch (error) {
+                console.warn(`[App] ${managerName} failed to initialize:`, error.message);
+                // Continue with other managers - don't fail the entire app
+                if (managerName === 'googleAuthManager') {
+                    this.handleGoogleAuthFailure(error);
+                }
+            }
         }
     }
     
@@ -252,6 +273,28 @@ class Application {
         }
     }
     
+    /**
+     * Handle Google Auth failure
+     */
+    handleGoogleAuthFailure(error) {
+        console.warn('[App] Google Auth not available, enabling manual auth only');
+        
+        // Show warning toast
+        this.showToast('Google Sign-In unavailable - using manual authentication', 'warning');
+        
+        // Hide Google sign-in button if it exists
+        const googleButton = document.getElementById('google-signin-button');
+        if (googleButton) {
+            googleButton.style.display = 'none';
+        }
+        
+        // Show manual login by default
+        const manualToggle = document.getElementById('manual-login-toggle');
+        if (manualToggle && !document.getElementById('manual-login').classList.contains('active')) {
+            manualToggle.click();
+        }
+    }
+
     /**
      * Handle initialization error
      */

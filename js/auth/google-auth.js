@@ -52,29 +52,39 @@ class GoogleAuthManager {
         return new Promise((resolve, reject) => {
             // Check if already loaded
             if (window.google && window.google.accounts) {
+                console.log('[GoogleAuth] Google library already loaded');
                 resolve();
                 return;
             }
             
-            // Set up global callback
-            window.onGoogleLibraryLoad = () => {
-                console.log('[GoogleAuth] Google library loaded');
-                resolve();
-            };
+            // Check if script failed to load
+            if (window.googleScriptError) {
+                reject(new Error('Google Sign-In script failed to load - network error'));
+                return;
+            }
             
-            // Wait up to 10 seconds for library to load
+            // Wait up to 15 seconds for library to load
             const timeout = setTimeout(() => {
-                reject(new Error('Google library failed to load within timeout'));
-            }, 10000);
+                if (window.googleScriptError) {
+                    reject(new Error('Google Sign-In script failed to load'));
+                } else {
+                    reject(new Error('Google library failed to load within timeout (network may be slow)'));
+                }
+            }, 15000);
             
             // Check periodically if library is loaded
             const checkInterval = setInterval(() => {
                 if (window.google && window.google.accounts) {
                     clearInterval(checkInterval);
                     clearTimeout(timeout);
+                    console.log('[GoogleAuth] Google library loaded successfully');
                     resolve();
+                } else if (window.googleScriptError) {
+                    clearInterval(checkInterval);
+                    clearTimeout(timeout);
+                    reject(new Error('Google Sign-In script failed to load'));
                 }
-            }, 100);
+            }, 200);
         });
     }
     

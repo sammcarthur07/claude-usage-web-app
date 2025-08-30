@@ -340,7 +340,7 @@
     </div>
     
     <!-- Google Sign-In API -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" onload="window.googleScriptLoaded = true" onerror="window.googleScriptError = true"></script>
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
